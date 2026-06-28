@@ -1,139 +1,221 @@
-# Contributing to Starcore
+# 🌟 Starcore
 
-Thank you for your interest in contributing to Starcore! This guide will help you get started.
+> A NestJS-powered backend SDK for building production-ready applications on the Stellar blockchain.
 
----
-
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [How to Contribute](#how-to-contribute)
-- [Picking an Issue](#picking-an-issue)
-- [Development Setup](#development-setup)
-- [Branch Naming](#branch-naming)
-- [Commit Messages](#commit-messages)
-- [Pull Request Process](#pull-request-process)
-- [Issue Labels](#issue-labels)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NestJS](https://img.shields.io/badge/NestJS-v10-red)](https://nestjs.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Stellar](https://img.shields.io/badge/Stellar-SDK-black)](https://stellar.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
 
-## Code of Conduct
+## What is Starcore?
 
-Be respectful, inclusive, and constructive. We are here to build something useful together.
-
----
-
-## How to Contribute
-
-There are many ways to contribute:
-
-- Fix a bug
-- Implement a new feature
-- Write or improve tests
-- Improve documentation
-- Review pull requests
-
-All contributions are valued equally.
+Starcore is an open-source backend SDK built with NestJS and TypeScript that makes it easy to integrate the Stellar blockchain into any backend application. Instead of spending weeks reading Stellar documentation, Starcore gives you production-ready modules for accounts, transactions, Soroban smart contracts, webhooks, and authentication.
 
 ---
 
-## Picking an Issue
+## Features
 
-1. Browse the [open issues](https://github.com/starcore-hq/starcore/issues)
-2. Look for issues tagged `good first issue` if you are new
-3. Comment on the issue to let others know you are working on it
-4. Wait for a maintainer to assign it to you before starting
-
-**Please do not submit a PR for an issue that is already assigned to someone else.**
+- 🔐 **Auth Module** — Stellar wallet-based authentication with JWT session management
+- 👤 **Accounts Module** — Create, fund, and manage Stellar accounts via REST endpoints
+- 💸 **Transactions Module** — Build, sign, submit, and track XLM transactions
+- 📜 **Soroban Module** — Deploy, invoke, and read Soroban smart contracts
+- 🔔 **Webhooks Module** — Subscribe to real-time Stellar network events via Horizon SSE
+- 🛠️ **CLI Tools** — Scaffold new Starcore projects and generate modules quickly
+- 🧪 **Fully tested** — Unit and e2e tests for every module
+- 📖 **Well documented** — Every endpoint, service, and config option explained
 
 ---
 
-## Development Setup
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | NestJS 10 |
+| Language | TypeScript 5 |
+| Blockchain | Stellar SDK + Soroban |
+| Auth | JWT + Passport.js |
+| Database | PostgreSQL + TypeORM |
+| Testing | Jest + Supertest |
+| Docs | Swagger / OpenAPI |
+
+---
+
+## Project Structure
+
+```
+starcore/
+├── src/
+│   ├── auth/
+│   ├── accounts/
+│   ├── transactions/
+│   ├── soroban/
+│   ├── webhooks/
+│   ├── shared/
+│   └── main.ts
+├── test/
+├── docs/
+├── CONTRIBUTING.md
+└── README.md
+```
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
 - Node.js v18+
 - PostgreSQL
-- Git
+- A Stellar testnet account ([create one here](https://laboratory.stellar.org/))
 
-### Steps
+### Installation
 
 ```bash
-# Fork and clone the repo
-git clone https://github.com/YOUR_USERNAME/starcore.git
+git clone https://github.com/starcore-hq/starcore.git
 cd starcore
-
-# Install dependencies
 npm install
-
-# Copy environment variables
 cp .env.example .env
+```
 
-# Fill in your .env values (see README for details)
+### Environment Variables
 
-# Start in development mode
+```env
+PORT=3000
+NODE_ENV=development
+DATABASE_URL=postgresql://user:password@localhost:5432/starcore
+JWT_SECRET=your_jwt_secret_here
+JWT_EXPIRES_IN=7d
+STELLAR_NETWORK=testnet
+STELLAR_HORIZON_URL=https://horizon-testnet.stellar.org
+STELLAR_SECRET_KEY=your_stellar_secret_key
+```
+
+### Running the App
+
+```bash
+# Development
 npm run start:dev
+
+# Production
+npm run build
+npm run start:prod
+```
+
+### Running Tests
+
+```bash
+npm run test
+npm run test:e2e
+npm run test:cov
 ```
 
 ---
 
-## Branch Naming
+## API Overview
 
-Use this format for your branch names:
+Visit `http://localhost:3000/api` for full Swagger documentation.
 
+### Auth
 ```
-feat/short-description       # New feature
-fix/short-description        # Bug fix
-test/short-description       # Adding tests
-docs/short-description       # Documentation only
-refactor/short-description   # Code refactor
+POST /auth/login
+POST /auth/refresh
+POST /auth/logout
 ```
 
-Examples:
-- `feat/webhook-hmac-signing`
-- `fix/duplicate-horizon-events`
-- `test/webhook-delivery-service`
-- `docs/soroban-module-readme`
+### Accounts
+```
+POST   /accounts
+GET    /accounts/:id
+POST   /accounts/:id/fund
+DELETE /accounts/:id
+```
+
+### Transactions
+```
+POST /transactions/build
+POST /transactions/sign
+POST /transactions/submit
+GET  /transactions/:hash
+```
+
+### Soroban
+```
+POST /soroban/deploy
+POST /soroban/invoke
+GET  /soroban/:contractId
+```
+
+### Webhooks
+```
+POST   /webhooks
+GET    /webhooks
+DELETE /webhooks/:id
+```
 
 ---
 
-## Commit Messages
+## Roadmap
 
-Follow this format:
+### v0.1.0 — Foundation
+- [x] Project setup and NestJS boilerplate
+- [ ] Auth module with Stellar wallet login
+- [ ] Accounts module with CRUD endpoints
 
+### v0.2.0 — Transactions
+- [ ] Transaction builder service
+- [ ] Sign and submit endpoints
+- [ ] Transaction status tracking
+
+### v0.3.0 — Soroban
+- [ ] Contract deployment service
+- [ ] Contract invocation layer
+- [ ] Contract state reader
+
+### v0.4.0 — Webhooks
+- [ ] Horizon SSE listener
+- [ ] Webhook subscription CRUD
+- [ ] HMAC payload signing
+- [ ] Retry logic with exponential backoff
+
+### v0.5.0 — Developer Experience
+- [ ] CLI scaffolding tool
+- [ ] Full Swagger docs
+- [ ] Docker support
+
+---
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
+
+Look for issues tagged [`good first issue`](https://github.com/starcore-hq/starcore/issues?q=label%3A%22good+first+issue%22) to get started.
+
+### Quick steps
+1. Fork the repository
+2. Create a branch: `git checkout -b feat/your-feature-name`
+3. Make your changes and write tests
+4. Submit a pull request referencing the issue: `Closes #42`
+
+### Branch naming
 ```
-type(scope): short description
+feat/short-description
+fix/short-description
+test/short-description
+docs/short-description
+```
 
-Examples:
+### Commit format
+```
 feat(webhooks): add HMAC signature verification
 fix(transactions): handle 5xx errors from Horizon
 test(accounts): add unit tests for account creation
 docs(auth): document JWT refresh flow
 ```
 
-Types: `feat`, `fix`, `test`, `docs`, `refactor`, `chore`
-
----
-
-## Pull Request Process
-
-1. Make sure your branch is up to date with `main`
-2. Run the full test suite: `npm run test`
-3. Run linting: `npm run lint`
-4. Fill in the PR template completely
-5. Reference the issue number in your PR description: `Closes #42`
-6. Wait for a review — we aim to respond within 48 hours
-
-### PR Title Format
-
-```
-feat(webhooks): implement HMAC signature verification (#42)
-```
-
----
-
-## Issue Labels
-
+### Issue labels
 | Label | Meaning |
 |---|---|
 | `good first issue` | Great for first-time contributors |
@@ -143,14 +225,21 @@ feat(webhooks): implement HMAC signature verification (#42)
 | `documentation` | Docs need to be written or updated |
 | `security` | Security-related task |
 | `help wanted` | Extra attention needed |
-| `in progress` | Someone is actively working on this |
 
 ---
 
-## Questions?
+## Community
 
-Open a [GitHub Discussion](https://github.com/starcore-hq/starcore/discussions) and we will help you out.
+- 💬 [GitHub Discussions](https://github.com/starcore-hq/starcore/discussions)
+- 🐛 [Issues](https://github.com/starcore-hq/starcore/issues)
+- 🐦 [Twitter](https://twitter.com/Engrukayat)
 
 ---
 
-Thank you for contributing to Starcore 
+## License
+
+MIT © [starcore-hq](https://github.com/starcore-hq)
+
+---
+
+<p align="center">Built with ❤️ for the Stellar ecosystem</p>
