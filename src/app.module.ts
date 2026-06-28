@@ -7,9 +7,18 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { SorobanModule } from './soroban/soroban.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { SharedModule } from './shared/shared.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
-  imports: [AuthModule, AccountsModule, TransactionsModule, SorobanModule, WebhooksModule, SharedModule],
+  imports: [
+    AuthModule,
+    AccountsModule,
+    TransactionsModule,
+    SorobanModule,
+    WebhooksModule,
+    SharedModule,
+    HealthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
