@@ -8,6 +8,7 @@ import { SorobanModule } from './soroban/soroban.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { SharedModule } from './shared/shared.module';
 import { HealthModule } from './health/health.module';
+import { AssetsModule } from './assets/assets.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HealthModule } from './health/health.module';
     WebhooksModule,
     SharedModule,
     HealthModule,
+    AssetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
